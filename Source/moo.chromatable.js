@@ -67,8 +67,12 @@ var MooChromaTable = new Class({
         // replace old class with new to differentiate between the two
         var clone_table = table.clone().inject(table,'before');
         clone_table.addClass('_thead');
+        var clone_width = this.options.width;
+        if (this.options.width == '100%' || this.options.width == 'auto') {
+            clone_width = 'auto';
+        }
         clone_table.setStyles({
-            'width': 'auto',
+            'width': clone_width,
             'display': 'block',
             'position': 'absolute',
             'border': 'none',
@@ -91,6 +95,7 @@ var MooChromaTable = new Class({
         var source = table.getElement('thead').getElements('th');
 
         table.getPrevious().getElement('thead').getElements('th').each(function(th, i) {
+            console.log(source[i].getStyle('width'));
             th.setStyle('width', source[i].getStyle('width'));
         });
     }
