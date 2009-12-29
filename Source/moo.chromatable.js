@@ -93,10 +93,19 @@ var MooChromaTable = new Class({
     },
     resizer: function(table) {
         var source = table.getElement('thead').getElements('th');
+        var padding = source[0].getStyle('padding-left').toInt() + source[0].getStyle('padding-right').toInt();
 
         table.getPrevious().getElement('thead').getElements('th').each(function(th, i) {
-            console.log(source[i].getStyle('width'));
-            th.setStyle('width', source[i].getStyle('width'));
+            if (Browser.Engine.trident) {
+                var this_padding = padding;
+                if (!(i==0 || i == source.length - 1)) {
+                    this_padding += th.getStyle('border-left-width').toInt();
+                }
+                th.setStyle('width', source[i].getSize().x - this_padding);
+            }
+            else {
+                th.setStyle('width', source[i].getStyle('width'));
+            }
         });
     }
 });
